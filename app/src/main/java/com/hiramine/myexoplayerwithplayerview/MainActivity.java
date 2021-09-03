@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 		// タイトルバー、ステータスバー、ナビゲーションバーの非表示
 		// （ポーズ、ストップから復帰した際には、ナビゲーションバーのImmersiveモード（ナビゲーションバーの折り畳み表示）が解除されるので、
 		// 　onCreateではなく、onResumeで、バー非表示処理を行う。
-		// 　onCreateで、ウインドウのフルスクリーン設定を行うと、ポーズからレジュームした際に、ナビゲーションバーが常時表示となってしまう。）
+		// 　onCreateで、バー非表示処理を行うと、ポーズからレジュームした際に、ナビゲーションバーが常時表示となってしまう。）
 		getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE // タイトルバー非表示
 														  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN // ステータスバーが無いものとしてビューをレイアウトする
 														  | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION // ナビゲーションバーが無いものとしてビューをレイアウトする
