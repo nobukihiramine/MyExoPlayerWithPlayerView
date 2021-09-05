@@ -11,6 +11,7 @@ https://www.hiramine.com/programming/videoplayer_exoplayer_playerview/index.html
 - compileSdkVersion 30
 - minSdkVersion 23
 - minSdkVersion 30
+- ExoPlayer 2.15.0
 
 ## Author : 作者
 Nobuki HIRAMINE : [http://www.hiramine.com](http://www.hiramine.com)
