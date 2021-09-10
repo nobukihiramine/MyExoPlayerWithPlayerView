@@ -7,9 +7,12 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;
 
@@ -26,6 +29,24 @@ public class MainActivity extends AppCompatActivity
 	private boolean         m_bIsPlayingWhenActivityIsPaused;
 	private ImageView       m_imageviewFullScreen;
 	private boolean         m_bIsFullScreen;
+	private ProgressBar     m_progressbarBuffering;
+
+	private Player.Listener m_playerlistener = new Player.Listener()
+	{
+		@Override
+		public void onPlaybackStateChanged( int playbackState )
+		{
+			if( Player.STATE_BUFFERING == playbackState )
+			{	// バッファリング中は、バッファリングプログレスバーを表示
+				m_progressbarBuffering.setVisibility( View.VISIBLE );
+			}
+			//else if( Player.STATE_READY == playbackState )
+			else if( Player.STATE_BUFFERING != playbackState )
+			{	// レディになったら、バッファリングプログレスバーを非表示
+				m_progressbarBuffering.setVisibility( View.GONE );
+			}
+		}
+	};
 
 	private View.OnClickListener m_onFullScreenButtonClickListener = new View.OnClickListener()
 	{
@@ -53,6 +74,9 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_main );
 
+		// 画面を常にオンにする
+		getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+
 		// 初期状態は、画面は縦向きで、非フルスクリーン。
 		setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
 		m_bIsFullScreen = false;
@@ -63,6 +87,9 @@ public class MainActivity extends AppCompatActivity
 		// フルスクリーンボタンのビューのクリックリスナーの設定
 		m_imageviewFullScreen.setOnClickListener( m_onFullScreenButtonClickListener );
 
+		// バッファリング中プログレスバーの取得
+		m_progressbarBuffering = findViewById( R.id.progressbar_buffering );
+
 		// 動画を再生するビューの取得
 		m_playerview = findViewById( R.id.playerview );
 
@@ -71,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 		playerbuilder.setSeekBackIncrementMs( 10000 );    // SeekBack 10s
 		playerbuilder.setSeekForwardIncrementMs( 10000 ); // SeekForward 10s
 		m_simpleexoplayer = playerbuilder.build();
+		m_simpleexoplayer.addListener( m_playerlistener );
 
 		// 動画を再生するビューとSimpleExoPlayerの紐づけ
 		m_playerview.setPlayer( m_simpleexoplayer );

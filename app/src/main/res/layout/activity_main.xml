@@ -13,4 +13,10 @@
         android:layout_height="match_parent"
         app:controller_layout_id="@layout/custom_controller"/>
 
+    <ProgressBar
+        android:id="@+id/progressbar_buffering"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>
